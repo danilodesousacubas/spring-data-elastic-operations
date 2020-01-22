@@ -32,4 +32,8 @@ public class StoreService {
 	public long count() {
 		return storeRespository.count();
 	}
+	
+	public Page<Store> findByStoreNameUsingCustomQuery(String name, Pageable pageable){
+		return storeRespository.findByStoreNameUsingCustomQuery(name, pageable);
+	}
 }
