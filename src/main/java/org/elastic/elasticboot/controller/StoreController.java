@@ -1,5 +1,6 @@
 package org.elastic.elasticboot.controller;
 
+import org.elastic.elasticboot.exceptions.StoreNotFoundException;
 import org.elastic.elasticboot.model.Store;
 import org.elastic.elasticboot.service.StoreService;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +32,12 @@ public class StoreController {
 		return store;
 	}
 
+	@GetMapping("/{id}")
+	public Store findOne(@PathVariable final String id) throws StoreNotFoundException {
+		LOGGER.info(String.format("find store by id: {%s}", id));
+		return storeService.findOnde(id).orElseThrow(() -> new StoreNotFoundException());
+	}
+
 	@GetMapping
 	public Page<Store> findAll(Pageable pageable) {
 		LOGGER.info("find all stores");
@@ -42,8 +50,8 @@ public class StoreController {
 		return storeService.count();
 	}
 
-	@GetMapping("/query?{store-name}")
-	public Page<Store> findByStoreName(Pageable pageable, @RequestParam final String storeName) {
+	@GetMapping("/query")
+	public Page<Store> findByStoreName(Pageable pageable, @RequestParam("store-name") final String storeName) {
 		LOGGER.info(String.format("find store by name: [%s]", storeName));
 		return storeService.findByStoreNameUsingCustomQuery(storeName, pageable);
 	}
