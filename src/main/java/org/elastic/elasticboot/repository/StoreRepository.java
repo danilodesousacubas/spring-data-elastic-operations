@@ -7,8 +7,10 @@ import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 public interface StoreRepository extends ElasticsearchRepository<Store, String> {
-	Page<Store> findByName(String name, Pageable pageable);
+	Page<Store> findByName(final String name, Pageable pageable);
 
-	@Query("{\"bool\": {\"must\": [{\"match\": {\"store.name\": \"?0\"}}]}}")
+
+	@Query("{\"query\": {\"match\":{\"name\":\"Store name 2\"}}}")
+//	@Query("{\"bool\": {\"must\": [{\"match\": {\"store.name\": \"?0\"}}]}}")
 	Page<Store> findByStoreNameUsingCustomQuery(String name, Pageable pageable);
 }
