@@ -17,5 +17,4 @@ public class Store {
 	@Id
 	private String id;
 	private String name;
-
 }
