@@ -7,7 +7,7 @@ class App extends Component {
     
     componentDidMount() {
         axios
-            .get("http://localhost:8080/store")
+            .get("http://localhost:8080/api/store")
             .then(res => {
                 const stores = res.data.content;
                 this.setState({ stores });

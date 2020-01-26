@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -36,8 +37,11 @@ public class StoreController {
 	public  ResponseEntity<Store> create(@RequestBody final Store store) throws URISyntaxException {
 		LOGGER.info("Request to create store: {}", store);
 		Store persisted = storeService.save(store);
+
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(persisted.getId())
+		        .toUri();
 		
-		return ResponseEntity.created(new URI("api/store" + persisted.getId())).body(persisted);
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@PutMapping("/{id}")

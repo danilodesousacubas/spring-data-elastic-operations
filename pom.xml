@@ -3,34 +3,36 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.2.2.RELEASE</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath />
 	</parent>
+
 	<groupId>org.elastic</groupId>
 	<artifactId>elastic-boot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>elastic-boot</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Demo project for Spring Boot - Elastic Search</description>
 
 	<properties>
 		<java.version>1.8</java.version>
+		<frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
+		<node.version>v10.15.2</node.version>
+		<yarn.version>1.21.1</yarn.version>
 	</properties>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -42,42 +44,90 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
 	</dependencies>
 
 	<profiles>
 		<profile>
-			<id>spring-data-next-releasetrain</id>
-			<properties>	
-				<elasticsearch.version>6.8.2</elasticsearch.version>
+			<id>local</id>
+			<properties>
+				<activatedProperties>local</activatedProperties>
 			</properties>
 		</profile>
 		<profile>
-			<id>spring-data-next-releasetrain-released</id>
+			<id>development</id>
 			<properties>
-				<elasticsearch.version>6.8.2</elasticsearch.version>
+				<activatedProperties>dev</activatedProperties>
+			</properties>
+		</profile>
+		<profile>
+			<id>prd</id>
+			<properties>
+				<activatedProperties>prd</activatedProperties>
 			</properties>
 		</profile>
 	</profiles>
-	
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.6</version>
+
+				<configuration>
+					<workingDirectory>src/main/resources/static/ui</workingDirectory>
+					<environmentVariables>
+						<!-- Avoid certificates issues, needed behind a corporate proxy -->
+						<NODE_TLS_REJECT_UNAUTHORIZED>0</NODE_TLS_REJECT_UNAUTHORIZED>
+					</environmentVariables>
+				</configuration>
+
+				<executions>
+					<execution>
+						<id>install node and yarn</id>
+						<goals>
+							<goal>install-node-and-yarn</goal>
+						</goals>
+						<configuration>
+							<nodeVersion>v10.15.2</nodeVersion>
+							<yarnVersion>v1.21.1</yarnVersion>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>yarn install</id>
+						<goals>
+							<goal>yarn</goal>
+						</goals>
+						<configuration>
+							<arguments>install
+								--dist-url="${maven-frontend.nodeDownloadRoot}"</arguments>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>yarn build</id>
+						<goals>
+							<goal>yarn</goal>
+						</goals>
+						<configuration>
+							<arguments>run build</arguments>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
+
+
+
+
 		</plugins>
 	</build>
-
 </project>

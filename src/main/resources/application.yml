@@ -1,4 +1,5 @@
 spring:
+  profiles.active: local
   data:
     elasticsearch:
       cluster-name: docker-cluster
