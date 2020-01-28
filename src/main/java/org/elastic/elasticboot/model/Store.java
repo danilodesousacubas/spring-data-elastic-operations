@@ -6,12 +6,14 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @Document(indexName = "store", type = "purchase", shards = 1, replicas = 0, refreshInterval = "-1")
 public class Store {
 	@Id
