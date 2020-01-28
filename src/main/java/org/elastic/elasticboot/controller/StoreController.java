@@ -38,9 +38,7 @@ public class StoreController {
 		LOGGER.info("Request to create store: {}", store);
 		Store persisted = storeService.save(store);
 
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(persisted.getId())
-		        .toUri();
-		
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(persisted.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
