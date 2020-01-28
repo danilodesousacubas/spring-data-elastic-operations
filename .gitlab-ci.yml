@@ -3,12 +3,8 @@ services:
   - docker:dind
 
 stages:
-  - build
   - install
-  - test
-  - docker-build-dockerhub
-  - docker-build-gcloud
-
+  
 variables:
   MAVEN_OPTS: "-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
@@ -28,19 +24,3 @@ install:jdk8:
   artifacts:
     paths:
      - target/*.jar
-
-test:jdk8:
-  image: maven:3.3.9-jdk-8
-  stage: test
-  script:
-    - mvn test  
-  only:
-    - master
-  
-push:docker-hub:
-  stage: docker-build-dockerhub
-  script:
-    - docker build -t $IMAGE:latest .
-    #- docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD "docker.io"
-    #- docker push $IMAGE:latest
-
