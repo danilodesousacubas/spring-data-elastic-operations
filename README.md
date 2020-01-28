@@ -10,6 +10,8 @@ $ docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.el
 $ mvn clean install spring-boot:run 
 ```
 
-### Obs: Ubuntu docker.sock 
-### sudo chmod 666 /var/run/docker.sock
-### sudo chown root:docker /var/run/docker.sock
+```command
+#### Obs: Ubuntu docker.sock 
+$ sudo chmod 666 /var/run/docker.sock
+$ sudo chown root:docker /var/run/docker.sock
+```
