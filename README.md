@@ -1,5 +1,10 @@
 # Spring Data - Elastic Search Query Operations
 
+## To Run run All using ONE command:
+```command
+$ docker-compose up 
+```
+
 ## To Run Elastic Search single node:
 ```command
 $ docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:6.8.2 
