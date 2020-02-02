@@ -40,6 +40,6 @@ public class StoreService {
 	}
 
 	public Page<Store> findByStoreNameUsingCustomQuery(String name, Pageable pageable) {
-		return storeRespository.findByStoreNameUsingCustomQuery(name, pageable);
+		return storeRespository.findStoreByName(name, pageable);
 	}
 }
