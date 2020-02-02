@@ -1,25 +1,38 @@
 import React, { Component } from 'react';
 
 class Table extends Component {
+    
+    
+    delete(){
+        
+    }
+    
     render() {
-        const  {stores} = this.props;
+        const { stores } = this.props;
         return (
-           <TableStores stores={stores} />
+            <TableStores stores={stores} />
         );
     }
 }
 
 const TableStores = props => {
-    const lines = props.stores.map((l,i) => {
-         return(
+    const lines = props.stores.map((l, i) => {
+        return (
             <tr key={i}>
-                 <td>{l.id}</td>
-                 <td>{l.name}</td>
-             </tr>
-         );
+                <td>{l.id}</td>
+                <td>{l.name}</td>
+                <td>
+                    <button
+                        className="waves-effect waves-light indigo lighten-2 btn"
+                        type="button" value="1">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        );
     });
 
-    return(
+    return (
         <table>
             <thead>
                 <tr>
@@ -33,5 +46,5 @@ const TableStores = props => {
         </table>
     );
 }
-   
+
 export default Table;
