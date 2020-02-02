@@ -19,12 +19,12 @@ services:
       - 9300:9300
     networks: ['stack']
 
-  api:
-    container_name: api
-    image: danilodesousa/elastic-boot
-    ports:
-      - 8080:8080
-    networks: ['stack']
+  # api:
+  #   container_name: api
+  #   image: danilodesousa/elastic-boot
+  #   ports:
+  #     - 8080:8080
+  #   networks: ['stack']
 
 networks:
   stack: {}

@@ -10,7 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -57,7 +59,10 @@ public class StoreController {
 
 	@GetMapping
 	public Page<Store> findAll(Pageable pageable) {
+//		Pageable sort = PageRequest.of(pageable.getPageNumber(), 10, Sort.by("name"));
+		
 		Page<Store> stores = storeService.findAll(pageable);
+		
 		LOGGER.info(String.format("store size [%d]", stores.getSize()));
 		return stores;
 	}

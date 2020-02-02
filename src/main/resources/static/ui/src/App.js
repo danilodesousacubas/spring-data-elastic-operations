@@ -1,6 +1,8 @@
 import React, { Fragment, Component } from 'react';
 import axios from 'axios';
 import Table from './Table';
+import Header from './Header';
+import 'materialize-css/dist/css/materialize.min.css';
 
 class App extends Component {
     state = { stores: [] }
@@ -19,6 +21,7 @@ class App extends Component {
         return (
             <Fragment>
                 <div className='container'>
+                    <Header />
                     <Table stores={this.state.stores} />
                 </div>
             </Fragment>
