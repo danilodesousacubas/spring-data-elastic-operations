@@ -6,7 +6,8 @@ export default class Create extends Component {
         super(props);
 
         this.stateInicial = {
-            name: ''
+            name: '',
+            email: ''
         }
 
         this.state = this.stateInicial;
@@ -24,28 +25,16 @@ export default class Create extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
-
-        console.log("name", this.state.name);
         
-        const store = {
-            name: this.state.name
-        };
-
-        console.log("store", this.store);
-        console.log("submit", this.state);
-        
-        axios.post(`http://localhost:8080/api/store`, { store })
+        axios.post(`http://localhost:8080/api/store`, { name: this.state.name, email: this.state.email })
             .then(res => {
                 console.log(res);
                 console.log(res.data);
             })
-
     }
 
     render() {
-
-        const { name } = this.state;
-
+        const { name, email } = this.state;
         return (
             <form>
                 <div className="row">
@@ -57,15 +46,22 @@ export default class Create extends Component {
                             type="text"
                             name="name"
                             value={name}
-                            onChange={this.handleChange}
+                            onChange={this.handleChange} />
 
-                        />
+                        <label className="input-field" htmlFor="email" />
+                        <input
+                            className="validate"
+                            id="email"
+                            type="email"
+                            name="email"
+                            value={email}
+                            onChange={this.handleChange} />
                     </div>
-                    <button className="waves-effect waves-light indigo lighten-2 btn" type="button" onClick={this.handleSubmit}>Save</button>
-                    
+                    <div className='row'>
+                        <button className="waves-effect waves-light indigo lighten-2 btn" type="button" onClick={this.handleSubmit}>Save</button>
+                    </div>
                 </div>
             </form>
-
         );
     }
 }

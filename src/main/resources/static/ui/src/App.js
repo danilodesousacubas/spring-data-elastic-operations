@@ -23,8 +23,8 @@ class App extends Component {
             <Fragment>
                 <div className='container'>
                     <Header />
-                        <br />
                         <Create />
+
                         <Table stores={this.state.stores} />
                     </div>
             </Fragment>

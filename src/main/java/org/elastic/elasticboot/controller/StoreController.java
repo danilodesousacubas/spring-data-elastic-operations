@@ -38,18 +38,19 @@ public class StoreController {
 	@PostMapping
 	public  ResponseEntity<Store> create(@RequestBody final Store store) throws URISyntaxException {
 		LOGGER.info("Request to create store: {}", store);
-		Store persisted = storeService.save(store);
+		final Store persisted = storeService.save(store);
 
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(persisted.getId()).toUri();
+		final URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(persisted.getId())
+				.toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
+
 	@PutMapping("/{id}")
-    ResponseEntity<Store> updateGroup(@Valid @RequestBody Store store) {
-        LOGGER.info("Request to update group: {}", store);
-        Store persisted = storeService.save(store);
-        return ResponseEntity.ok().body(persisted);
-    }
+	ResponseEntity<Store> updateGroup(@Valid @RequestBody final Store store) {
+		LOGGER.info("Request to update group: {}", store);
+		final Store persisted = storeService.save(store);
+		return ResponseEntity.ok().body(persisted);
+	}
 
 	@GetMapping("/{id}")
 	public Store findOne(@PathVariable final String id) throws StoreNotFoundException {
@@ -58,23 +59,24 @@ public class StoreController {
 	}
 
 	@GetMapping
-	public Page<Store> findAll(Pageable pageable) {
-//		Pageable sort = PageRequest.of(pageable.getPageNumber(), 10, Sort.by("name"));
-		
-		Page<Store> stores = storeService.findAll(pageable);
-		
+	public Page<Store> findAll(final Pageable pageable) {
+		// Pageable sort = PageRequest.of(pageable.getPageNumber(), 10,
+		// Sort.by("name"));
+
+		final Page<Store> stores = storeService.findAll(pageable);
+
 		LOGGER.info(String.format("store size [%d]", stores.getSize()));
 		return stores;
 	}
 
 	@GetMapping("/count")
-	public long count(Pageable pageable) {
+	public long count(final Pageable pageable) {
 		LOGGER.info("get count stores");
 		return storeService.count();
 	}
 
 	@GetMapping("/query")
-	public Page<Store> findByStoreName(Pageable pageable, @RequestParam("store-name") final String storeName) {
+	public Page<Store> findByStoreName(final Pageable pageable, @RequestParam("store-name") final String storeName) {
 		LOGGER.info(String.format("find store by name: [%s]", storeName));
 		return storeService.findByStoreNameUsingCustomQuery(storeName, pageable);
 	}
@@ -83,5 +85,11 @@ public class StoreController {
 	public void delete() {
 		LOGGER.info("elastic operation for delete index");
 		storeService.delete();
+	}
+
+	@DeleteMapping("/{id}")
+	public void deleteStore(@PathVariable("id") final String id) {
+		LOGGER.info("end point delete {}",id);
+		// storeService.delete();
 	}
 }

@@ -1,33 +1,57 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
-class Table extends Component {
-    
-    
-    delete(){
-        
+export default class Table extends Component {
+    state = { stores: [] }
+
+    componentDidMount() {
+        console.log("component did mount");
+
+        axios
+        .get("http://localhost:8080/api/store")
+        .then(res => {
+            console.log("stores -->", res.data.content);
+            const stores = res.data.content;
+            this.setState({ stores });
+        })
+        .catch(error => console.log("catch error: ", error));
     }
     
+    handleChange = event => {
+        this.setState({ id: event.target.value });
+    }
+
+    handleSubmit = event => {
+        event.preventDefault();
+    
+        axios.delete(`http://localhost:8080/api/store/${this.state.id}`)
+          .then(res => {
+            console.log(res);
+            console.log(res.data);
+          })
+      }
+
     render() {
-        const { stores } = this.props;
+        
+        // const { stores } = this.props;
         return (
-            <TableStores stores={stores} />
+            <TableStores stores={this.state.stores} />
         );
     }
 }
 
 const TableStores = props => {
+    
     const lines = props.stores.map((l, i) => {
         return (
             <tr key={i}>
                 <td>{l.id}</td>
                 <td>{l.name}</td>
-                <td>
-                    <button
-                        className="waves-effect waves-light indigo lighten-2 btn"
-                        type="button" value="1">
-                        Delete
-                    </button>
-                </td>
+                <td>{l.email}</td>
+                <button 
+                    className="waves-effect waves-light indigo lighten-2 btn" 
+                    type="button" 
+                    onClick = { () => { props.removeAutor(l.id) }}>Remove</button>
             </tr>
         );
     });
@@ -38,6 +62,7 @@ const TableStores = props => {
                 <tr>
                     <th>id</th>
                     <th>name</th>
+                    <th>email</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,4 +72,3 @@ const TableStores = props => {
     );
 }
 
-export default Table;
