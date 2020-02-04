@@ -4,3 +4,10 @@ spring:
     elasticsearch:
       cluster-name: docker-cluster
       cluster-nodes: localhost:9300
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          elasticsearch:
+            core: DEBUG
