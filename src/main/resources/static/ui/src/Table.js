@@ -48,10 +48,15 @@ const TableStores = props => {
                 <td>{l.id}</td>
                 <td>{l.name}</td>
                 <td>{l.email}</td>
-                <button 
-                    className="waves-effect waves-light indigo lighten-2 btn" 
-                    type="button" 
-                    onClick = { () => { props.removeAutor(l.id) }}>Remove</button>
+                <td>
+                    <button 
+                        className="waves-effect waves-light indigo lighten-2 btn" 
+                        type="button"
+                        onClick={}
+                        >
+                                Remove
+                    </button>
+                </td>
             </tr>
         );
     });
@@ -63,6 +68,7 @@ const TableStores = props => {
                     <th>id</th>
                     <th>name</th>
                     <th>email</th>
+                    <th>actions</th>
                 </tr>
             </thead>
             <tbody>
